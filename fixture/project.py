@@ -8,6 +8,7 @@ class ProjectHelper:
 
     def add_project(self, Project):
         wd = self.app.wd
+        wd.get(self.app.base_url)
         self.open_projects_page()
         wd.find_element_by_css_selector("input[value='Create New Project']").click()
         self.fill_project_form(Project)
@@ -36,15 +37,15 @@ class ProjectHelper:
         wd = self.app.wd
         self.open_projects_page()
         self.project_cache = []
-        for row in wd.find_elements_by_css_selector("tr.row-1"):
+        for row in wd.find_elements_by_xpath("//table[3]/tbody/tr"):
             cells = row.find_elements_by_tag_name("td")
             name = cells[0].text
             self.project_cache.append(Project(name=name))
-        for row in wd.find_elements_by_css_selector("tr.row-2"):
-            cells = row.find_elements_by_tag_name("td")
-            name = cells[0].text
-            self.project_cache.append(Project(name=name))
-        return list(self.project_cache)
+        #for row in wd.find_elements_by_xpath("//table[3]/tbody/tr.row2"):
+           #cells = row.find_elements_by_tag_name("td")
+            #name = cells[0].text
+            #self.project_cache.append(Project(name=name))
+        return list(self.project_cache)[2:]
 
     def delete_project_by_name(self, name):
         wd = self.app.wd
